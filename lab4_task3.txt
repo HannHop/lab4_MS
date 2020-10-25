@@ -1,0 +1,20 @@
+Task 3. Rotation quadrature encoder
+Design a controller that counts rotation steps from the encoder connected to GT_0
+(P1.0) and GT_1 (P1.1) inputs. In the idle position, the encoder outputs a high state.
+During a single step of the encoder rotated left the sequence of signals is as follows
+{P1.0, P1.1} = { 2’b11, 2’b10, 2’b00, 2’b01, 2’b11}. The right rotation produce the
+sequence {P1.0, P1.1} = { 2’b11, 2’b01, 2’b00, 2’b10, 2’b11}. The controller must be
+resistant to incomplete rotation and returning to the idle position e.g. { 2’b11, 2’b01,
+2’b00, 2’b01, 2’b11}. Summarizing, the designed controller must follow the state
+changes going forth and back for a particular rotation direction starting from the idle
+state. In total controller contains 7 states, where: 1 idle and for 3 states for rotation in
+each direction that are watching the progress of rotation.
+The single-step move (either left or right) is detected when the whole sequence is
+observed from the idle state to the idle state of a one-direction movement.
+There is the counter variable in the memory labeled CNT that should be incremented
+each time the complete sequence of going right is detected and decremented for the
+complete sequence of going left. The counter value should be protected against
+decrementation when equals 0 and against incrementation, when equals 255.
+
+This was used as a sensor in old computer mouse (with a ball).
+Not full cycle shouldn't impact the counter.
